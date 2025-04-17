@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Segmentation Output</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #2e2e2e; color: #ffffff; }
+        h1, h2, h3 { color: #ffffff; }
+        .card {
+            background-color: #3a3a3a;
+            border: 2px solid #4B0082;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+        .plot-container {
+            border: 2px solid #4B0082;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #2e2e2e;
+        }
+        .form-label, .form-select, .form-control {
+            color: #ffffff !important;
+            background-color: #3a3a3a;
+        }
+        .form-select option {
+            color: #ffffff;
+            background-color: #3a3a3a;
+        }
+        /* Prevent input field from turning white on focus */
+        .form-control:focus {
+            background-color: #3a3a3a;
+            color: #ffffff;
+            border-color: #4B0082;
+            box-shadow: none;
+        }
+        .form-select:focus {
+            background-color: #3a3a3a;
+            color: #ffffff;
+            border-color: #4B0082;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Customer Segmentation Analysis</h1>
+    <div class="container">
+
+        <!-- 1. Elbow Plot Card -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <h2 style="text-align: center;">Elbow Plot</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card plot-container">
+                                {{ elbow_plot|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Form Card -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <h2 style="text-align: center;">Clustering Parameters</h2>
+                    <form method="POST" action="/">
+                        <div class="mb-3">
+                            <label for="k" class="form-label" style="color: #ffffff;">Number of Clusters (k):</label>
+                            <input type="number" name="k" id="k" class="form-control" min="2" max="10" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="x_attr" class="form-label" style="color: #ffffff;">X-Axis Attribute:</label>
+                            <select name="x_attr" id="x_attr" class="form-select" required>
+                                <option value="Age">Age</option>
+                                <option value="Annual Income">Annual Income</option>
+                                <option value="Spending Score (1-100)">Spending Score</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="y_attr" class="form-label" style="color: #ffffff;">Y-Axis Attribute:</label>
+                            <select name="y_attr" id="y_attr" class="form-select" required>
+                                <option value="Age">Age</option>
+                                <option value="Annual Income">Annual Income</option>
+                                <option value="Spending Score (1-100)">Spending Score</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Clusters</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Graphs and Cluster Summary Card (only visible after form submission) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <h2 style="text-align: center;">Clustering Results</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card plot-container">
+                                {{ scatter_plot|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                {{ cluster_summary|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
